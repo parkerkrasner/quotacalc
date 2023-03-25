@@ -1,0 +1,46 @@
+from datetime import datetime, time
+
+time_periods = ["[1] 7 am - 9:30am", "[2] 9:30am-11:45am", "[3] 12:15pm-2:00pm", "[4] 2:00pm-3:30pm"]
+
+def remaining_quota_calculator():
+    num_members = int(input("Enter the number of line members (3-7): "))
+    if num_members < 3 or num_members > 7:
+        print("Invalid number of line members entered.")
+        return
+
+    time_period = int(input("Enter the time period (1-4): "))
+    if time_period < 1 or time_period > 4:
+        print("Invalid time period selected.")
+        return
+
+    if time_period == 1:
+        time_start = time(hour=7, minute=0)
+        time_end = time(hour=9, minute=30)
+    elif time_period == 2:
+        time_start = time(hour=9, minute=30)
+        time_end = time(hour=11, minute=45)
+    elif time_period == 3:
+        time_start = time(hour=12, minute=15)
+        time_end = time(hour=14, minute=0)
+    elif time_period == 4:
+        time_start = time(hour=14, minute=0)
+        time_end = time(hour=15, minute=30)
+
+    time_remaining_str = input("Enter the time remaining in HH:MM format: ")
+    try:
+        time_remaining = datetime.strptime(time_remaining_str, "%H:%M").time()
+    except ValueError:
+        print("Invalid time format entered.")
+        return
+
+    if not (time_start <= time_remaining <= time_end):
+        print("Time entered is not within the specified time period.")
+        return
+
+    hours_remaining = (time_end.hour - time_remaining.hour) + (time_end.minute - time_remaining.minute) / 60
+    remaining_quota = hours_remaining * num_members * 9.95
+
+    print(f"Your new quota for the remaining time period {time_periods[time_period - 1]}: {remaining_quota:.2f}")
+
+# Example usage:
+remaining_quota_calculator()
