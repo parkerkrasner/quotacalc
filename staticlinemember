@@ -1,0 +1,28 @@
+time_periods = ["[1] 7 am - 9:30am", "[2] 9:30am-11:45am", "[3] 12:15pm-2:00pm", "[4] 2:00pm-3:30pm"]
+total_quota = int(input("Enter the total quota for the day: "))
+
+def total_quota_calculator():
+    time_period = int(input("Enter the time period (1-4): "))
+
+    if time_period < 1 or time_period > 4:
+        print("Invalid time period selected.")
+        return
+
+    if time_period == 1:
+        quota_percentage = 0.3125
+    elif time_period == 2:
+        quota_percentage = 0.59375
+    elif time_period == 3:
+        quota_percentage = 0.8125
+    elif time_period == 4:
+        quota_percentage = 1.0
+
+    current_quota = int(input("Enter the current number of parts completed: "))
+    quota_remaining = int(quota_percentage * total_quota - current_quota)
+
+    if quota_remaining < 0:
+        parts_over_quota = current_quota - int(quota_percentage * total_quota)
+        quota_remaining = f"+{parts_over_quota}"
+
+    print(f"Quota remaining for time period {time_periods[time_period - 1]}: {quota_remaining}")
+
